@@ -3,6 +3,8 @@ type token =
     | LPAREN
     | RPAREN
     | EQ
+    | LT
+    | GT 
     | SEMCOL
     | LBRACE
     | RBRACE
