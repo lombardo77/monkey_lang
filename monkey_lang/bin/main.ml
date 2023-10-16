@@ -1,17 +1,7 @@
 open Lexer
+open Core.In_channel
 
-let input = 
-    "let ten = 10;
-    let five = 5;
-
-    let add = fn(x, y) {
-        x + y;
-    }
-    if (x != 9) { x}
-    else if (x == 9)
-
-    let result = add(five, 10);
-    "
-let tokens = read_input input 0 (String.length input);;
+let file = read_all "./file.mk"
+let tokens = read_input file 0 (String.length file);;
 pp tokens;;
 
