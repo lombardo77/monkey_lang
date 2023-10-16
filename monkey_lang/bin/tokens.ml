@@ -2,7 +2,7 @@ type token =
     (* non numberic/alphabetical tokens *)
     | LPAREN
     | RPAREN
-    | EQ
+    | ASSIGN
     | LT
     | GT 
     | SEMCOL
@@ -26,6 +26,13 @@ type token =
     | IF
     | ELIF
     | ELSE
+    | RETURN 
+    (* logical operators *)
+    | TRUE
+    | FALSE
+    | NOTEQ
+    | NOT
+    | EQ
     (* special tokens *)
     | ILLEGAL
     | EOF

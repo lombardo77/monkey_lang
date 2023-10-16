@@ -1,1 +1,1 @@
-bin/main.ml: Printf Str Tokens
+bin/main.ml: Char List Printf String Tokens
