@@ -65,37 +65,36 @@ let read_number s n =
 (**************************************)
 
 let get_sym_token s =
-    let f x = Char.escaped x in
     match s with
-    | '(' -> (LPAREN, f s)
-    | ')' -> (RPAREN, f s)
-    | '=' -> (ASSIGN, f s)
-    | '<' -> (LT, f s)
-    | '>' -> (GT, f s)
-    | ';' -> (SEMCOL, f s)
-    | '+' -> (ADD, f s)
-    | '-' -> (MINUS, f s)
-    | '*' -> (MULT, f s)
-    | '/' -> (DIV, f s)
-    | '}' -> (RBRACE, f s)
-    | '{' -> (LBRACE, f s)
-    | ',' -> (COMMA, f s)
-    | '!' -> (NOT, f s)
-    | _ -> (ILLEGAL, f s)
+    | '(' -> LParen
+    | ')' -> RParen 
+    | '=' -> Assign
+    | '<' -> LT
+    | '>' -> GT
+    | ';' -> SemCol
+    | '+' -> Add
+    | '-' -> Minus
+    | '*' -> Mult
+    | '/' -> Div
+    | '}' -> RBrace
+    | '{' -> LBrace
+    | ',' -> Comma
+    | '!' -> Not
+    | _ -> Illegal
 
 let get_word_token s =
     match s with
-    | "let" -> (LET, s)
-    | "fn" -> (FN, s)
-    | "for" -> (FOR, s)
-    | "while" -> (WHILE, s)
-    | "if" -> (IF, s)
-    | "else if" -> (ELIF, s)
-    | "else" -> (ELSE, s)
-    | "return" -> (RETURN, s)
-    | _ -> (IDENT s, s)
+    | "let" -> Let
+    | "fn" -> Fn
+    | "for" -> For
+    | "while" -> While
+    | "if" -> If
+    | "else if" -> Elif
+    | "else" -> Else
+    | "return" -> Return
+    | _ -> Ident s
 
-let get_int_token s = (INTEGER (int_of_string s), s)
+let get_int_token s = Integer (int_of_string s)
 
 (* looks at the next char to determine whether symbol is e.g., '=' or '=='*)
 let peek s n = String.get s (n + 1)
@@ -105,8 +104,8 @@ let get_token s n =
     if is_letter c then (get_word_token (read_word s n), new_index s n)
     else if is_number c then (get_int_token (read_number s n), new_index s n)
     else (match c with
-            | '=' -> if peek s n = '=' then ((EQ, Char.escaped c), n + 2) else (get_sym_token c, n + 1)
-            | '!' -> if peek s n = '=' then ((NOTEQ, Char.escaped c), n + 2) else (get_sym_token c, n + 1)
+            | '=' -> if peek s n = '=' then (Eq, n + 2) else (get_sym_token c, n + 1)
+            | '!' -> if peek s n = '=' then (NotEq, n + 2) else (get_sym_token c, n + 1)
             | _ -> (get_sym_token c, n + 1)
     )
 
@@ -133,51 +132,56 @@ let rec read_input s n len =
         | h ->  if is_letter h || is_number h then token::(read_input s ind len)
                 else token::( read_input s ind len)
     )
-    else [(EOF, " ")] 
+    else [EOF] 
 ;;
 
 (**************************************)
 (**************************************)
-(************** TESTS *****************)
+(************** PRINT *****************)
 (**************************************)
 (**************************************)
+
 
 (* pretty printing functions *)
 let rec pp l =
     match l with
     | h :: t ->(
         match h with
-        | (LET, _) -> printf "LET, "
-        | (LPAREN, _) -> printf "LPAREN, "
-        | (RPAREN, _) -> printf "RPAREN, "
-        | (LBRACE, _) -> printf "LBRACE, "
-        | (RBRACE, _) -> printf "RBRACE, "
-        | (EQ, _) -> printf "EQ, "
-        | (NOTEQ, _) -> printf "NOTEQ, "
-        | (NOT, _) -> printf "NOT, "
-        | (ASSIGN, _) -> printf "ASSIGN, "
-        | (LT, _) -> printf "LT, "
-        | (GT, _) -> printf "GT, "
-        | (SEMCOL, _) -> printf "SEMCOL, "
-        | (COMMA, _) -> printf "COMMA, "
-        | (ADD, _) -> printf "ADD, "
-        | (MINUS, _) -> printf "MINUS, "
-        | (MULT, _) -> printf "MULT, "
-        | (DIV, _) -> printf "DIV, "
-        | (IF, _) -> printf "IF, "
-        | (FOR, _) -> printf "FOR, "
-        | (WHILE, _) -> printf "WHILE, "
-        | (ELSE, _) -> printf "ELSE, "
-        | (FN, _) -> printf "FN, "
-        | (IDENT a, _) -> printf "IDENT(%s), " a
-        | (INTEGER a, _) -> printf "INT(%d), " a
-        | (RETURN, _) -> printf "RETURN, "
-        | (EOF, _) -> printf "EOF, "
-        | (ILLEGAL, _) -> printf "ILL, "
+        | Let -> printf "Let, "
+        | LParen -> printf "LParen, "
+        | RParen -> printf "RParen, "
+        | LBrace -> printf "LBrace, "
+        | RBrace -> printf "RBrace, "
+        | Eq -> printf "Eq, "
+        | NotEq -> printf "NotEq, "
+        | Not -> printf "Not, "
+        | Assign -> printf "Assign, "
+        | LT -> printf "LT, "
+        | GT -> printf "GT, "
+        | SemCol -> printf "SemCol, "
+        | Comma -> printf "Comma, "
+        | Add -> printf "Add, "
+        | Minus -> printf "Minus, "
+        | Mult -> printf "Mult, "
+        | Div -> printf "Div, "
+        | If -> printf "If, "
+        | For -> printf "For, "
+        | While -> printf "While, "
+        | Else -> printf "Else, "
+        | Fn -> printf "Fn, "
+        | Ident a -> printf "Ident(%s), " a
+        | Integer a -> printf "Int(%d), " a
+        | Return -> printf "Return, "
+        | EOF -> printf "EOF, "
+        | Illegal -> printf "Ill, "
         | _ -> ()
     ); pp t
     | [] -> printf "\n"
 
+let rec ppp l =
+    match l with
+    | h::t -> pp h; ppp t
+    | [] -> ()
 
 
 

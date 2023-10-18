@@ -1,38 +1,38 @@
 type token = 
     (* non numberic/alphabetical tokens *)
-    | LPAREN
-    | RPAREN
-    | ASSIGN
+    | LParen
+    | RParen
+    | Assign
     | LT
     | GT 
-    | SEMCOL
-    | LBRACE
-    | RBRACE
-    | COMMA
+    | SemCol
+    | LBrace
+    | RBrace
+    | Comma
     (* arithmetic tokens *)
-    | ADD
-    | MINUS
-    | MULT
-    | DIV
+    | Add
+    | Minus
+    | Mult 
+    | Div
     (* numeric/alphabetical tokens *)
     (* integers and indetifiers *)
-    | IDENT of string
-    | INTEGER of int
+    | Ident of string
+    | Integer of int
     (* keywords *)
-    | FN 
-    | LET 
-    | FOR
-    | WHILE
-    | IF
-    | ELIF
-    | ELSE
-    | RETURN 
+    | Fn
+    | Let 
+    | For
+    | While
+    | If
+    | Elif
+    | Else
+    | Return
     (* logical operators *)
-    | TRUE
-    | FALSE
-    | NOTEQ
-    | NOT
-    | EQ
+    | True
+    | False
+    | NotEq
+    | Not
+    | Eq
     (* special tokens *)
-    | ILLEGAL
+    | Illegal
     | EOF
