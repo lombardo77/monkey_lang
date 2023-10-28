@@ -14,7 +14,9 @@ and exp =
 and environment = (string * value) list
 
 and statement =  
-    | Let of string * exp 
+    | Let of string * statement
+    | Return of statement 
+    | Exp of exp 
     | If of string * exp 
     | Else of string * exp 
     | While of string * exp
