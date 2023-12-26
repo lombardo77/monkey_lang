@@ -6,7 +6,7 @@ type value =
 and exp =
     | Var of string
     | Number of int
-    | Add of exp * exp
+    | Add of statement * statement
     | Mult of exp * exp
     | Div of exp * exp
     | Sub of exp * exp
